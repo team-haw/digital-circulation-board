@@ -18,9 +18,7 @@ develop ブランチからそれぞれブランチを切って、作業が完了
 
 エラー等がなく、問題がなかったら develop を main にマージ
 
-※
-
-ここまでしなくていいかも。
+※ ここまでしなくていいかも。
 
 その場合はそのまま main で作業？？ -> そうした場合 conflict 祭りになる可能性
 
@@ -30,10 +28,10 @@ develop ブランチからそれぞれブランチを切って、作業が完了
 
 自分の作業ディレクトリで
 
-`mkdir digital-circuration-board`
+```
+mkdir digital-circuration-board
+cd digital-circuration-board
+git clone レポジトリURL
+```
 
-`cd digital-circuration-board`
-
-`git clone レポジトリURL`
-
-circuration-board のところは自分の好きな名前でおけ
+`digital-circuration-board` のところは自分の好きな名前でおけ
