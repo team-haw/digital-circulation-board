@@ -10,20 +10,30 @@
 
 ## 開発ルール
 
-develop ブランチで基本は作業する
+develop ブランチで基本は作業する。
+
 develop ブランチからそれぞれブランチを切って、作業が完了したら、develop にマージ
+
 ある程度 develop ブランチの変更が溜まったら、全員で develop ブランチをローカルで実行し確認する。
+
 エラー等がなく、問題がなかったら develop を main にマージ
 
 ※
+
 ここまでしなくていいかも。
+
 その場合はそのまま main で作業？？ -> そうした場合 conflict 祭りになる可能性
+
 ここは要相談!
 
 ## 最初にすること
 
 自分の作業ディレクトリで
+
 `mkdir digital-circuration-board`
+
 `cd digital-circuration-board`
+
 `git clone レポジトリURL`
+
 circuration-board のところは自分の好きな名前でおけ
