@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,21 +8,11 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
@@ -32,15 +23,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -48,68 +30,179 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  final List<String> items = [
+    'Item1',
+    'Item2',
+    'Item3',
+    'Item4',
+    'Item5',
+    'Item6',
+    'Item7',
+    'Item8',
+  ];
+  String? selectedValue;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  final List<String> genderItems = [
+    'Male',
+    'Female',
+  ];
+
+  String? secondSelectedValue;
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
+      /* appBar: AppBar(actions: [
+        IconButton(icon: Icon(Icons.help_outline), onPressed: () {})
+      ]), */
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            Icon(Icons.assignment, size: 50),
+            Text('TEAM HAW.',
+                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 50),
+            DropdownButton2(
+              hint: Text(
+                '地区を選んでください',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Theme.of(context).hintColor,
+                ),
+              ),
+              items: items
+                  .map((item) => DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(
+                          item,
+                          style: const TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                      ))
+                  .toList(),
+              value: selectedValue,
+              onChanged: (value) {
+                setState(() {
+                  selectedValue = value as String;
+                });
+              },
+              buttonHeight: 40,
+              buttonWidth: 200,
+              itemHeight: 40,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            const SizedBox(height: 30),
+            SizedBox(
+              width: 400,
+              child: DropdownButtonFormField2(
+                decoration: InputDecoration(
+                  isDense: true,
+                  contentPadding: EdgeInsets.zero,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                ),
+                isExpanded: true,
+                hint: const Text(
+                  '町内会を選んでください',
+                  style: TextStyle(fontSize: 14),
+                ),
+                icon: const Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.black45,
+                ),
+                iconSize: 30,
+                buttonHeight: 50,
+                buttonPadding: const EdgeInsets.only(left: 20, right: 10),
+                dropdownDecoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(7),
+                ),
+                items: genderItems
+                    .map((item) => DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ))
+                    .toList(),
+                validator: (value) {
+                  if (value == null) {
+                    return 'Please select gender.';
+                  }
+                },
+                onChanged: (value) {
+                  //Do something when changing the item if you want.
+                },
+                onSaved: (value) {
+                  secondSelectedValue = value.toString();
+                },
+              ),
             ),
+            const SizedBox(height: 30),
+            OutlinedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SubPage()),
+                  );
+                },
+                child: Text(
+                  '連携せずにログイン',
+                  style: TextStyle(color: Colors.black54),
+                )),
+            const SizedBox(height: 50),
+            _snsButton("LINE", 0xff06c755),
+            const SizedBox(height: 20),
+            _snsButton("Facebook", 0xff3b5998),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+/*
+colorは0x[透明度][R][G][B]と記述　
+ex) 0xffffffff -> 真っ白
+*/
+Widget _snsButton(String snsName, int color) {
+  return SizedBox(
+      height: 40,
+      child: ElevatedButton(
+        onPressed: () => {},
+        child: Text('${snsName}でログイン'),
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Color(color))),
+      ));
+}
+
+class SubPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text('Navigator'),
+      ),
+      body: new Container(
+        padding: new EdgeInsets.all(32.0),
+        child: new Center(
+          child: new Column(
+            children: <Widget>[
+              Text('Sub'),
+              OutlinedButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: new Text('戻る'),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
