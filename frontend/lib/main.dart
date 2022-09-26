@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -180,29 +180,4 @@ Widget _snsButton(String snsName, int color) {
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(Color(color))),
       ));
-}
-
-class SubPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Navigator'),
-      ),
-      body: new Container(
-        padding: new EdgeInsets.all(32.0),
-        child: new Center(
-          child: new Column(
-            children: <Widget>[
-              Text('Sub'),
-              OutlinedButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: new Text('戻る'),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
