@@ -30,22 +30,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<String> items = [
-    'Item1',
-    'Item2',
-    'Item3',
-    'Item4',
-    'Item5',
-    'Item6',
-    'Item7',
-    'Item8',
+  final List<String> ereaItems = [
+    '1丁目',
+    '2丁目',
+    '3丁目',
+    '4丁目',
   ];
   String? selectedValue;
 
-  final List<String> genderItems = [
-    'Male',
-    'Female',
-  ];
+  final List<String> teamItems = ['第1班', '第2班', '第3班', '第4班', '第5班'];
 
   String? secondSelectedValue;
 
@@ -54,9 +47,33 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /* appBar: AppBar(actions: [
-        IconButton(icon: Icon(Icons.help_outline), onPressed: () {})
-      ]), */
+      appBar: AppBar(elevation: 0, backgroundColor: Colors.white10, actions: [
+        IconButton(
+            color: Colors.black,
+            icon: Icon(Icons.help_outline),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) {
+                  return SimpleDialog(
+                    title: Text("このダイアログは説明です"),
+                    children: <Widget>[
+                      Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 100,
+                            vertical: 30,
+                          ),
+                          child: Text(style: TextStyle(), 'ここに説明文が入るリマス')),
+                      SimpleDialogOption(
+                        onPressed: () => Navigator.pop(context),
+                        child: Icon(Icons.close),
+                      ),
+                    ],
+                  );
+                },
+              );
+            })
+      ]),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -64,98 +81,31 @@ class _MyHomePageState extends State<MyHomePage> {
             Icon(Icons.assignment, size: 50),
             Text('TEAM HAW.',
                 style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 50),
-            DropdownButton2(
-              hint: Text(
-                '地区を選んでください',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Theme.of(context).hintColor,
-                ),
-              ),
-              items: items
-                  .map((item) => DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(
-                          item,
-                          style: const TextStyle(
-                            fontSize: 14,
-                          ),
-                        ),
-                      ))
-                  .toList(),
-              value: selectedValue,
-              onChanged: (value) {
-                setState(() {
-                  selectedValue = value as String;
-                });
-              },
-              buttonHeight: 40,
-              buttonWidth: 200,
-              itemHeight: 40,
+            const SizedBox(height: 100),
+            SizedBox(
+              width: 400,
+              child: _dropDownList(ereaItems, selectedValue, '地区を選択してください'),
             ),
             const SizedBox(height: 30),
             SizedBox(
               width: 400,
-              child: DropdownButtonFormField2(
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.zero,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                ),
-                isExpanded: true,
-                hint: const Text(
-                  '町内会を選んでください',
-                  style: TextStyle(fontSize: 14),
-                ),
-                icon: const Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black45,
-                ),
-                iconSize: 30,
-                buttonHeight: 50,
-                buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-                dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                items: genderItems
-                    .map((item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                              fontSize: 14,
-                            ),
-                          ),
-                        ))
-                    .toList(),
-                validator: (value) {
-                  if (value == null) {
-                    return 'Please select gender.';
-                  }
-                },
-                onChanged: (value) {
-                  //Do something when changing the item if you want.
-                },
-                onSaved: (value) {
-                  secondSelectedValue = value.toString();
-                },
-              ),
+              child: _dropDownList(teamItems, selectedValue, '町内会を選択してください'),
             ),
-            const SizedBox(height: 30),
-            OutlinedButton(
-                onPressed: () {
-                  Navigator.push(
+            const SizedBox(height: 60),
+            SizedBox(
+              height: 40,
+              child: OutlinedButton(
+                  onPressed: () {
+                    /* Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => SubPage()),
-                  );
-                },
-                child: Text(
-                  '連携せずにログイン',
-                  style: TextStyle(color: Colors.black54),
-                )),
+                  ); */
+                  },
+                  child: Text(
+                    '連携せずにログイン',
+                    style: TextStyle(color: Colors.black54),
+                  )),
+            ),
             const SizedBox(height: 50),
             _snsButton("LINE", 0xff06c755),
             const SizedBox(height: 20),
@@ -167,6 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+//影付きのボタンのWidget
 /*
 colorは0x[透明度][R][G][B]と記述　
 ex) 0xffffffff -> 真っ白
@@ -180,4 +131,55 @@ Widget _snsButton(String snsName, int color) {
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(Color(color))),
       ));
+}
+
+//カスタマイズ可能なドロップダウンのWidget
+Widget _dropDownList(
+    List<String> itemList, String? selectedValue, String explainText) {
+  return DropdownButtonFormField2(
+    decoration: InputDecoration(
+      isDense: true,
+      contentPadding: EdgeInsets.zero,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(6),
+      ),
+    ),
+    isExpanded: true,
+    hint: Text(
+      '${explainText}',
+      style: TextStyle(fontSize: 14),
+    ),
+    icon: const Icon(
+      Icons.arrow_drop_down,
+      color: Colors.black45,
+    ),
+    iconSize: 30,
+    buttonHeight: 50,
+    buttonPadding: const EdgeInsets.only(left: 20, right: 10),
+    dropdownDecoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(7),
+    ),
+    items: itemList
+        .map((item) => DropdownMenuItem<String>(
+              value: item,
+              child: Text(
+                item,
+                style: const TextStyle(
+                  fontSize: 14,
+                ),
+              ),
+            ))
+        .toList(),
+    validator: (value) {
+      if (value == null) {
+        return 'Please select gender.';
+      }
+    },
+    onChanged: (value) {
+      //Do something when changing the item if you want.
+    },
+    onSaved: (value) {
+      selectedValue = value.toString();
+    },
+  );
 }
