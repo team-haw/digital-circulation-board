@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:frontend/home.dart';
+import 'package:frontend/user_register.dart';
+import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.title});
@@ -29,7 +33,7 @@ class _LoginPage extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(elevation: 0, backgroundColor: Colors.white10, actions: [
+      appBar: AppBar(elevation: 0, backgroundColor: Colors.grey[50], actions: [
         IconButton(
             color: Colors.black,
             icon: Icon(Icons.help_outline),
@@ -63,24 +67,22 @@ class _LoginPage extends State<LoginPage> {
             Icon(Icons.assignment, size: 50),
             Text('TEAM HAW.',
                 style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 100),
-            SizedBox(
-              width: 400,
+            Container(
+              margin: EdgeInsets.fromLTRB(50, 50, 50, 15),
               child: _dropDownList(ereaItems, selectedValue, '地区を選択してください'),
             ),
-            const SizedBox(height: 30),
-            SizedBox(
-              width: 400,
+            Container(
+              padding: EdgeInsets.fromLTRB(50, 15, 50, 50),
               child: _dropDownList(teamItems, selectedValue, '町内会を選択してください'),
             ),
-            const SizedBox(height: 60),
             SizedBox(
               height: 40,
               child: OutlinedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
+                      MaterialPageRoute(
+                          builder: (context) => UserRegisterPage()),
                     );
                   },
                   child: Text(
@@ -88,10 +90,33 @@ class _LoginPage extends State<LoginPage> {
                     style: TextStyle(color: Colors.black54),
                   )),
             ),
-            const SizedBox(height: 50),
             _snsButton("LINE", 0xff06c755),
             const SizedBox(height: 20),
             _snsButton("Facebook", 0xff3b5998),
+            const SizedBox(
+              height: 30,
+            ),
+            Link(
+              // 開きたいWebページのURLを指定
+              uri: Uri.parse('https://line.me/R/'),
+              // targetについては後述
+              target: LinkTarget.blank,
+              builder: (BuildContext ctx, FollowLink? openLink) {
+                return TextButton(
+                  onPressed: openLink,
+                  child: const Text(
+                    'Webサイト表示',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all(EdgeInsets.zero),
+                    // minimumSize:zw
+                    //     MaterialStateProperty.all(Size.zero),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -108,8 +133,10 @@ Widget _snsButton(String snsName, int color) {
   return SizedBox(
       height: 40,
       child: ElevatedButton(
-        onPressed: () => {},
-        child: Text('${snsName}でログイン'),
+        onPressed: () async {
+          print(dotenv.env['APPLICATION_ID']);
+        },
+        child: Text('${snsName}で連携'),
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(Color(color))),
       ));
