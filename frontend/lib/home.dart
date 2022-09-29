@@ -82,7 +82,10 @@ Widget _bodyContent(int index, double ratio, BuildContext context) {
     case 0:
       return BulletinBoard(ratio);
     case 1:
-      return TimeLinePge();
+      return ElevatedButton(onPressed: () {Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => TimeLinePage()),
+      );},child: Text('pageへ飛ぶ'));
     case 2:
       return Profile(ratio);
     case 3:

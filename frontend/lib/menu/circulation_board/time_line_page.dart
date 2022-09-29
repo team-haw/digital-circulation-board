@@ -4,14 +4,14 @@ import 'package:intl/intl.dart';
 import '../../model/account.dart';
 import 'post_page.dart';
 
-class TimeLinePge extends StatefulWidget {
-  const TimeLinePge({Key? key}) : super(key: key);
+class TimeLinePage extends StatefulWidget {
+  const TimeLinePage({Key? key}) : super(key: key);
 
   @override
-  State<TimeLinePge> createState() => _TimeLinePgeState();
+  State<TimeLinePage> createState() => _TimeLinePageState();
 }
 
-class _TimeLinePgeState extends State<TimeLinePge> {
+class _TimeLinePageState extends State<TimeLinePage> {
   Account myAccount = Account(
       id: '1',
       name: 'Flutterラボ',
