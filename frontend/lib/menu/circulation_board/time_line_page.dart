@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/model/post.dart';
 import 'package:intl/intl.dart';
-
 import '../../model/account.dart';
 import 'post_page.dart';
 
