@@ -32,15 +32,21 @@ class _HomePage extends State<HomePage> {
     return Scaffold(
         appBar: AppBar(title: _AppBarText(_selectIndex)),
         body: Column(children: [
-          Slider(
-            label: '${_fontSizeRatio}',
-            value: _fontSizeRatio,
-            min: 0.5,
-            max: 1.5,
-            divisions: 10,
-            onChanged: _changeSliderValue,
-          ),
-          _bodyContent(_selectIndex, _fontSizeRatio)
+          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            Text('×${_fontSizeRatio}'),
+            SizedBox(
+              width: 200,
+              child: Slider(
+                label: '×${_fontSizeRatio}',
+                value: _fontSizeRatio,
+                min: 0.7,
+                max: 1.3,
+                divisions: 4,
+                onChanged: _changeSliderValue,
+              ),
+            )
+          ]),
+          _bodyContent(_selectIndex, _fontSizeRatio, context)
         ]),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
@@ -57,7 +63,7 @@ class _HomePage extends State<HomePage> {
   }
 }
 
-Widget _bodyContent(int index, double ratio) {
+Widget _bodyContent(int index, double ratio, BuildContext context) {
   switch (index) {
     case 0:
       return BulletinBoard(ratio);
@@ -66,7 +72,7 @@ Widget _bodyContent(int index, double ratio) {
     case 2:
       return Profile(ratio);
     case 3:
-      return Setting();
+      return Setting(context);
     default:
       return Text('error');
   }

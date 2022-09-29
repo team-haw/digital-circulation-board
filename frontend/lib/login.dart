@@ -3,9 +3,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:frontend/home.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key, required this.title});
-
-  final String title;
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPage();

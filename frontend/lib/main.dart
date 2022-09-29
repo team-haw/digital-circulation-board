@@ -13,9 +13,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        // ここで primarySwatch: Colors.white としたいけどエラーが出るため、それぞれのappBarでcolorを指定している。
         primarySwatch: Colors.indigo,
       ),
-      home: const LoginPage(title: 'Flutter Demo Home Page'),
+      home: const LoginPage(),
     );
   }
 }
