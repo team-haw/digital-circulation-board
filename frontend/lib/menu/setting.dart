@@ -8,3 +8,14 @@ Widget Setting() {
     ],
   ));
 }
+
+Widget _button() {
+  return SizedBox(
+      height: 40,
+      child: ElevatedButton(
+        onPressed: () => {},
+        child: Text('${snsName}でログイン'),
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Color(color))),
+      ));
+}

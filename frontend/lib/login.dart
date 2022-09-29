@@ -99,6 +99,36 @@ class _LoginPage extends State<LoginPage> {
   }
 }
 
+Widget _appBar(BuildContext context) {
+  return AppBar(elevation: 0, backgroundColor: Colors.white10, actions: [
+    IconButton(
+        color: Colors.black,
+        icon: Icon(Icons.help_outline),
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (_) {
+              return SimpleDialog(
+                title: Text("このダイアログは説明です"),
+                children: <Widget>[
+                  Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 100,
+                        vertical: 30,
+                      ),
+                      child: Text(style: TextStyle(), 'ここに説明文が入るリマス')),
+                  SimpleDialogOption(
+                    onPressed: () => Navigator.pop(context),
+                    child: Icon(Icons.close),
+                  ),
+                ],
+              );
+            },
+          );
+        })
+  ]);
+}
+
 //影付きのボタンのWidget
 /*
 colorは0x[透明度][R][G][B]と記述　
