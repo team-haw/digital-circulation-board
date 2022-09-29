@@ -17,7 +17,7 @@ class _TimeLinePgeState extends State<TimeLinePge> {
       name: 'Flutterラボ',
       selfIntroduction: 'こんばんは',
       userId: 'flutter_lab',
-      imagePath: 'https://careerselect.jp/imgresize/50/50/img/user/profile_15003_20220727031422.jpg',      createdTime: DateTime.now(),
+      imagePath: 'https://avatars.githubusercontent.com/u/87113276?s=40&v=4',
       updatedTime: DateTime.now()
   );
 

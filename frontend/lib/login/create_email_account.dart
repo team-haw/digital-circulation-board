@@ -110,7 +110,7 @@ class _CreateEmailAccountPageState extends State<CreateEmailAccountPage> {
               ElevatedButton(
                   onPressed: () async {
                     if(nameController.text.isNotEmpty && userIdController.text.isNotEmpty && selfIntroductionController.text.isNotEmpty && emailController.text.isNotEmpty && passwordController.text.isNotEmpty && image != null){
-                      var result = await Authentication.signUp(email: emailController.text, password: passwordController.text);
+                      var result = await Authentication.emailSignUp(email: emailController.text, password: passwordController.text);
                       if(result ==true) {  //authentication.dart の
                         Navigator.pop(context);
                       };

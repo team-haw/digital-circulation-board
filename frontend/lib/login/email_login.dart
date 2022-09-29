@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/utils/authentication.dart';
 import '../home.dart';
 import 'create_email_account.dart';
 
@@ -67,11 +68,15 @@ class _EmailLoginPageState extends State<EmailLoginPage> {
               ),
               SizedBox(height: 70),
               ElevatedButton(
-                onPressed: (){
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
-                  //pushReplacement = このページに戻れなくする
+                onPressed: () async {
+                  var result = await Authentication.emailSignIn(email: emailController.text, password: passwordController.text);
+                  if(result == true){
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+                    //pushReplacement = このページに戻れなくする
+                  }
                 },
-                child: Text('emailでログイン'),),
+                child: Text('emailでログイン'),
+              ),
             ],
           ),
         ),
