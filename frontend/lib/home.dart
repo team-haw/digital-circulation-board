@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'menu/bulletin_board.dart';
 import 'menu/circulation_board/time_line_page.dart';
+import 'menu/profile2.dart';
 import 'menu/setting.dart';
 import 'menu/profile.dart';
 
@@ -23,7 +24,20 @@ class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: _AppBarText(_selectIndex)),
+        appBar: AppBar(
+          title: _AppBarText(_selectIndex),
+            actions: [IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AccountPage(),
+                    fullscreenDialog: true,
+                  ),
+                );
+              },
+              icon: Icon(Icons.home),
+            ),]),
         body: _bodyContent(_selectIndex),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[

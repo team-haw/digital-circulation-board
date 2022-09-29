@@ -1,4 +1,7 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/utils/authentication.dart';
 import 'package:image_picker/image_picker.dart';
@@ -27,6 +30,14 @@ class _CreateEmailAccountPageState extends State<CreateEmailAccountPage> {
         image = File(pickedFile.path);
       });
     }
+  }
+
+  Future<void> uploadImage(String uid) async{
+    final FirebaseStorage storageInstance = FirebaseStorage.instance;
+    final Reference ref = storageInstance.ref();
+    await ref.child(uid).putFile(image!);
+    String downloadUrl = await storageInstance.ref(uid).getDownloadURL();
+    print('image_path: $downloadUrl');
   }
 
 
@@ -111,10 +122,11 @@ class _CreateEmailAccountPageState extends State<CreateEmailAccountPage> {
                   onPressed: () async {
                     if(nameController.text.isNotEmpty && userIdController.text.isNotEmpty && selfIntroductionController.text.isNotEmpty && emailController.text.isNotEmpty && passwordController.text.isNotEmpty && image != null){
                       var result = await Authentication.emailSignUp(email: emailController.text, password: passwordController.text);
-                      if(result ==true) {  //authentication.dart の
+                      if(result is UserCredential) {  //authentication.dart の
+                        await uploadImage(result.user!.uid);
                         Navigator.pop(context);
                       };
-                    }},
+                    }},//test2@test.jp
                   child: Text('アカウントを作成')),
             ],
           ),
