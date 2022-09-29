@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'menu/bulletin_board.dart';
+import 'menu/circulation_board/time_line_page.dart';
+import 'menu/profile2.dart';
 import 'menu/setting.dart';
-import 'menu/circulation_board.dart';
 import 'menu/profile.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,7 +31,20 @@ class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: _AppBarText(_selectIndex)),
+        appBar: AppBar(title: _AppBarText(_selectIndex), actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AccountPage(),
+                  fullscreenDialog: true,
+                ),
+              );
+            },
+            icon: Icon(Icons.home),
+          ),
+        ]),
         body: Column(children: [
           Row(mainAxisAlignment: MainAxisAlignment.end, children: [
             Text('×${_fontSizeRatio}'),
@@ -68,7 +82,7 @@ Widget _bodyContent(int index, double ratio, BuildContext context) {
     case 0:
       return BulletinBoard(ratio);
     case 1:
-      return CirculationBoard();
+      return TimeLinePge();
     case 2:
       return Profile(ratio);
     case 3:

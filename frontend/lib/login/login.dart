@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:frontend/home.dart';
 
+import 'email_login.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -71,7 +73,7 @@ class _LoginPage extends State<LoginPage> {
               width: 400,
               child: _dropDownList(teamItems, selectedValue, '町内会を選択してください'),
             ),
-            const SizedBox(height: 60),
+            const SizedBox(height: 30),
             SizedBox(
               height: 40,
               child: OutlinedButton(
@@ -83,6 +85,22 @@ class _LoginPage extends State<LoginPage> {
                   },
                   child: Text(
                     '連携せずにログイン',
+                    style: TextStyle(color: Colors.black54),
+                  )),
+            ),
+            const SizedBox(height: 30),
+            SizedBox(
+              height: 40,
+              child: OutlinedButton(
+                  onPressed: () {
+                    if(DropdownButtonFormField2 != null){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => EmailLoginPage()),
+                      );}
+                  },
+                  child: Text(
+                    'emailでログイン',
                     style: TextStyle(color: Colors.black54),
                   )),
             ),
@@ -171,14 +189,14 @@ Widget _dropDownList(
     ),
     items: itemList
         .map((item) => DropdownMenuItem<String>(
-              value: item,
-              child: Text(
-                item,
-                style: const TextStyle(
-                  fontSize: 14,
-                ),
-              ),
-            ))
+      value: item,
+      child: Text(
+        item,
+        style: const TextStyle(
+          fontSize: 14,
+        ),
+      ),
+    ))
         .toList(),
     validator: (value) {
       if (value == null) {
@@ -193,3 +211,4 @@ Widget _dropDownList(
     },
   );
 }
+
