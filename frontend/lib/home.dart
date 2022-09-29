@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'menu/bulletin_board.dart';
+import 'menu/circulation_board/time_line_page.dart';
 import 'menu/setting.dart';
-import 'menu/circulation_board.dart';
 import 'menu/profile.dart';
 
 class HomePage extends StatefulWidget {
@@ -45,7 +45,7 @@ Widget _bodyContent(int index) {
     case 0:
       return BulletinBoard();
     case 1:
-      return CirculationBoard();
+      return TimeLinePge();
     case 2:
       return Setting();
     case 3:
