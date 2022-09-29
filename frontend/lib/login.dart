@@ -3,9 +3,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:frontend/home.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key, required this.title});
-
-  final String title;
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPage();
@@ -97,6 +95,36 @@ class _LoginPage extends State<LoginPage> {
       ),
     );
   }
+}
+
+Widget _appBar(BuildContext context) {
+  return AppBar(elevation: 0, backgroundColor: Colors.white10, actions: [
+    IconButton(
+        color: Colors.black,
+        icon: Icon(Icons.help_outline),
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (_) {
+              return SimpleDialog(
+                title: Text("このダイアログは説明です"),
+                children: <Widget>[
+                  Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 100,
+                        vertical: 30,
+                      ),
+                      child: Text(style: TextStyle(), 'ここに説明文が入るリマス')),
+                  SimpleDialogOption(
+                    onPressed: () => Navigator.pop(context),
+                    child: Icon(Icons.close),
+                  ),
+                ],
+              );
+            },
+          );
+        })
+  ]);
 }
 
 //影付きのボタンのWidget

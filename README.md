@@ -10,7 +10,6 @@
 
 - Flutter
 
-
 ## 最初にすること
 
 自分の好きなディレクトリで
@@ -38,3 +37,10 @@ develop ブランチからそれぞれブランチを切って、作業が完了
 その場合はそのまま main で作業？？ -> そうした場合 conflict 祭りになる可能性
 
 <span style="color: red;"> ここは要相談! </span>
+
+## pubspec.yaml の反映方法
+
+```
+flutter pub get
+flutter pub run flutter_native_splash:create
+```

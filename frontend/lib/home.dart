@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePage extends State<HomePage> {
   int _selectIndex = 0;
+  double _fontSizeRatio = 1;
 
   void _onTapItem(int index) {
     setState(() {
@@ -20,11 +21,33 @@ class _HomePage extends State<HomePage> {
     });
   }
 
+  void _changeSliderValue(double value) {
+    setState(() {
+      _fontSizeRatio = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: _AppBarText(_selectIndex)),
-        body: _bodyContent(_selectIndex),
+        body: Column(children: [
+          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            Text('×${_fontSizeRatio}'),
+            SizedBox(
+              width: 200,
+              child: Slider(
+                label: '×${_fontSizeRatio}',
+                value: _fontSizeRatio,
+                min: 0.7,
+                max: 1.3,
+                divisions: 4,
+                onChanged: _changeSliderValue,
+              ),
+            )
+          ]),
+          _bodyContent(_selectIndex, _fontSizeRatio, context)
+        ]),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.assignment), label: '回覧板'),
@@ -40,16 +63,16 @@ class _HomePage extends State<HomePage> {
   }
 }
 
-Widget _bodyContent(int index) {
+Widget _bodyContent(int index, double ratio, BuildContext context) {
   switch (index) {
     case 0:
-      return BulletinBoard();
+      return BulletinBoard(ratio);
     case 1:
       return CirculationBoard();
     case 2:
-      return Setting();
+      return Profile(ratio);
     case 3:
-      return Profile();
+      return Setting(context);
     default:
       return Text('error');
   }
