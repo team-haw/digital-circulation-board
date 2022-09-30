@@ -42,7 +42,7 @@ class _HomePage extends State<HomePage> {
                 ),
               );
             },
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.account_circle),
           ),
         ]),
         body: Column(children: [

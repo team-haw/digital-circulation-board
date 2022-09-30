@@ -5,6 +5,7 @@ import 'package:frontend/utils/firestore/post.dart';
 import 'package:frontend/utils/firestore/users.dart';
 import 'package:intl/intl.dart';
 import '../../model/account.dart';
+import 'post_page.dart';
 
 class TimeLinePage extends StatefulWidget {
   const TimeLinePage({Key? key}) : super(key: key);
@@ -114,12 +115,12 @@ class _TimeLinePageState extends State<TimeLinePage> {
           }
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //     onPressed: (){
-      //       Navigator.push(context, MaterialPageRoute(builder: (context) => PostPage()));
-      //     },
-      //     child: Icon(Icons.chat_bubble_outline)
-      // ),
+      floatingActionButton: FloatingActionButton(
+           onPressed: (){
+             Navigator.push(context, MaterialPageRoute(builder: (context) => PostPage()));
+           },
+           child: Icon(Icons.chat_bubble_outline)
+       ),
     );
   }
 }
