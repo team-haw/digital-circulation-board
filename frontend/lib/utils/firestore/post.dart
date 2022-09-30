@@ -25,4 +25,6 @@ class PostFireStore{
       return false;
     }
   }
+  //static Future<List<Post>> getPostsFromIds(
+      //)
 }
