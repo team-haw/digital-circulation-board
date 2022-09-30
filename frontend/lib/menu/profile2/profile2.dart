@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/menu/profile2/edit_profile2.dart';
+import 'package:frontend/utils/authentication.dart';
 import 'package:intl/intl.dart';
 
-import '../model/account.dart';
-import '../model/post.dart';
+import '../../model/account.dart';
+import '../../model/post.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -14,15 +16,7 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  Account myAccount = Account(
-      id: '1',
-      name: 'Flutterラボ',
-      selfIntroduction: 'こんばんは',
-      userId: 'flutter_lab',
-      imagePath: 'https://avatars.githubusercontent.com/u/87113276?s=40&v=4',
-      createdTime: Timestamp.now(),
-      updatedTime: Timestamp.now()
-  );
+  Account myAccount = Authentication.myAccount!;
 
   List<Post> postList = [
     Post(
@@ -81,9 +75,14 @@ class _AccountPageState extends State<AccountPage> {
                             ],
                           ),
                           OutlinedButton(
-                              onPressed: (){
-
-                              },
+                              onPressed: () async{
+                                var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditAccountPage()));
+                                if(result == true){
+                                  setState((){
+                                    myAccount = Authentication.myAccount!;
+                                  });
+                                }
+                                },
                               child: Text('編集')
                           ),
                         ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'menu/bulletin_board.dart';
 import 'menu/circulation_board/time_line_page.dart';
-import 'menu/profile2.dart';
+import 'menu/profile2/profile2.dart';
 import 'menu/setting.dart';
 import 'menu/profile.dart';
 

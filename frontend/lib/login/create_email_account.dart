@@ -8,6 +8,9 @@ import 'package:frontend/utils/authentication.dart';
 import 'package:frontend/utils/firestore/users.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../utils/function_utils.dart';
+import '../utils/widget_utils.dart';
+
 class CreateEmailAccountPage extends StatefulWidget {
   const CreateEmailAccountPage({Key? key}) : super(key: key);
 
@@ -23,36 +26,12 @@ class _CreateEmailAccountPageState extends State<CreateEmailAccountPage> {
   TextEditingController emailController = TextEditingController();
 
   File? image;
-  ImagePicker picker = ImagePicker();
-
-  Future<void> getImageFromGallery() async{
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if(pickedFile != null){
-      setState(() {
-        image = File(pickedFile.path);
-      });
-    }
-  }
-
-  Future<String> uploadImage(String uid) async{
-    final FirebaseStorage storageInstance = FirebaseStorage.instance;
-    final Reference ref = storageInstance.ref();
-    await ref.child(uid).putFile(image!);
-    String downloadUrl = await storageInstance.ref(uid).getDownloadURL();
-    print('image_path: $downloadUrl');
-    return downloadUrl;
-  }
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,  //背景透明
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
-        title: Text('新規登録', style: TextStyle(color: Colors.black)),
-      ),
+      appBar: WidgetUtils.createAppbar('新規登録'),
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
@@ -60,9 +39,14 @@ class _CreateEmailAccountPageState extends State<CreateEmailAccountPage> {
             children: [
               SizedBox(height: 30),
               GestureDetector(  //CircleAvatarを押せるようにする
-                onTap: (){
-                  getImageFromGallery();
-                },
+                onTap: () async {
+                  var result = await FunctionUtils.getImageFromGallery();
+                  if(result != null){
+                    setState((){
+                      image = File(result.path);
+                    });
+                  }
+                  },
                 child: CircleAvatar(
                   foregroundImage: image == null ? null : FileImage(image!),
                   //画像が空かそうじゃないかで分岐　↑　
@@ -126,7 +110,7 @@ class _CreateEmailAccountPageState extends State<CreateEmailAccountPage> {
                     if(nameController.text.isNotEmpty && userIdController.text.isNotEmpty && selfIntroductionController.text.isNotEmpty && emailController.text.isNotEmpty && passwordController.text.isNotEmpty && image != null){
                       var result = await Authentication.emailSignUp(email: emailController.text, password: passwordController.text);
                       if(result is UserCredential) {  //authentication.dart の
-                        String imagePath = await uploadImage(result.user!.uid);
+                        String imagePath = await FunctionUtils.uploadImage(result.user!.uid, image!);
                         Account newAccount = Account(
                           id: result.user!.uid,
                           name: nameController.text,
