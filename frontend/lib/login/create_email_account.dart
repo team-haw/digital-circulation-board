@@ -1,12 +1,9 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/model/account.dart';
 import 'package:frontend/utils/authentication.dart';
 import 'package:frontend/utils/firestore/users.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../utils/function_utils.dart';
 import '../utils/widget_utils.dart';
