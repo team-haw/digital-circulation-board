@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/utils/authentication.dart';
 import '../home.dart';
+import '../utils/firestore/users.dart';
 import 'create_email_account.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
@@ -75,10 +77,13 @@ class _EmailLoginPageState extends State<EmailLoginPage> {
                   var result = await Authentication.emailSignIn(
                       email: emailController.text,
                       password: passwordController.text);
-                  if (result == true) {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => HomePage()));
-                    //pushReplacement = このページに戻れなくする
+                  if (result is UserCredential) {
+                    var _result = await UserFirestore.getUser(result.user!.uid);
+                    if (_result == true) {
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
+                      //pushReplacement = このページに戻れなくする
+                    }
                   }
                 },
                 child: Text('emailでログイン'),
