@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/model/account.dart';
 import 'package:frontend/utils/authentication.dart';
+import 'package:frontend/utils/firestore/users.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateEmailAccountPage extends StatefulWidget {
@@ -32,12 +34,13 @@ class _CreateEmailAccountPageState extends State<CreateEmailAccountPage> {
     }
   }
 
-  Future<void> uploadImage(String uid) async{
+  Future<String> uploadImage(String uid) async{
     final FirebaseStorage storageInstance = FirebaseStorage.instance;
     final Reference ref = storageInstance.ref();
     await ref.child(uid).putFile(image!);
     String downloadUrl = await storageInstance.ref(uid).getDownloadURL();
     print('image_path: $downloadUrl');
+    return downloadUrl;
   }
 
 
@@ -123,10 +126,21 @@ class _CreateEmailAccountPageState extends State<CreateEmailAccountPage> {
                     if(nameController.text.isNotEmpty && userIdController.text.isNotEmpty && selfIntroductionController.text.isNotEmpty && emailController.text.isNotEmpty && passwordController.text.isNotEmpty && image != null){
                       var result = await Authentication.emailSignUp(email: emailController.text, password: passwordController.text);
                       if(result is UserCredential) {  //authentication.dart の
-                        await uploadImage(result.user!.uid);
-                        Navigator.pop(context);
-                      };
-                    }},//test2@test.jp
+                        String imagePath = await uploadImage(result.user!.uid);
+                        Account newAccount = Account(
+                          id: result.user!.uid,
+                          name: nameController.text,
+                          userId: userIdController.text,
+                          selfIntroduction: selfIntroductionController.text,
+                          imagePath: imagePath,
+                        );
+                        var _result = await UserFirestore.setUser(newAccount);
+                        if(_result == true) {
+                          Navigator.pop(context);
+                        }
+                      }
+                    }
+                    },//test2@test.jp
                   child: Text('アカウントを作成')),
             ],
           ),

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -19,7 +20,8 @@ class _AccountPageState extends State<AccountPage> {
       selfIntroduction: 'こんばんは',
       userId: 'flutter_lab',
       imagePath: 'https://avatars.githubusercontent.com/u/87113276?s=40&v=4',
-      updatedTime: DateTime.now()
+      createdTime: Timestamp.now(),
+      updatedTime: Timestamp.now()
   );
 
   List<Post> postList = [
@@ -40,6 +42,12 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,  //背景透明
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text('', style: TextStyle(color: Colors.black)),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
