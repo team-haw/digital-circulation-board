@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'menu/bulletin_board.dart';
 import 'menu/circulation_board/time_line_page.dart';
-import 'menu/profile2.dart';
+import 'menu/profile2/profile2.dart';
 import 'menu/setting.dart';
 import 'menu/profile.dart';
 
@@ -82,7 +82,13 @@ Widget _bodyContent(int index, double ratio, BuildContext context) {
     case 0:
       return BulletinBoard(ratio);
     case 1:
-      return TimeLinePge();
+      return
+        ElevatedButton(onPressed: () {Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) =>
+            TimeLinePage()
+        ),
+      );},child: Text('pageへ飛ぶ'));
     case 2:
       return Profile(ratio);
     case 3:

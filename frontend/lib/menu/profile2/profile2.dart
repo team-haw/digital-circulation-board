@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/menu/profile2/edit_profile2.dart';
+import 'package:frontend/utils/authentication.dart';
 import 'package:intl/intl.dart';
 
-import '../model/account.dart';
-import '../model/post.dart';
+import '../../model/account.dart';
+import '../../model/post.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -13,33 +16,32 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  Account myAccount = Account(
-      id: '1',
-      name: 'Flutterラボ',
-      selfIntroduction: 'こんばんは',
-      userId: 'flutter_lab',
-      imagePath: 'https://avatars.githubusercontent.com/u/87113276?s=40&v=4',
-      updatedTime: DateTime.now()
-  );
+  Account myAccount = Authentication.myAccount!;
 
   List<Post> postList = [
     Post(
         id: '1',
         content: '初めまして',
         postAccountId: '1',
-        createdTime: DateTime.now()
+        createdTime: Timestamp.now()
     ),
     Post(
         id: '2',
         content: '初めまして2',
         postAccountId: '1',
-        createdTime: DateTime.now()
+        createdTime: Timestamp.now()
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,  //背景透明
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text('', style: TextStyle(color: Colors.black)),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
@@ -73,9 +75,14 @@ class _AccountPageState extends State<AccountPage> {
                             ],
                           ),
                           OutlinedButton(
-                              onPressed: (){
-
-                              },
+                              onPressed: () async{
+                                var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditAccountPage()));
+                                if(result == true){
+                                  setState((){
+                                    myAccount = Authentication.myAccount!;
+                                  });
+                                }
+                                },
                               child: Text('編集')
                           ),
                         ],
@@ -130,7 +137,7 @@ class _AccountPageState extends State<AccountPage> {
                                               Text(myAccount.userId, style: TextStyle(color: Colors.grey)),
                                             ],
                                           ),
-                                          Text(DateFormat('M/d/yy').format(postList[index].createdTime!)),
+                                          Text(DateFormat('M/d/yy').format(postList[index].createdTime!.toDate())),
                                         ],
                                       ),
                                       Text(postList[index].content),
