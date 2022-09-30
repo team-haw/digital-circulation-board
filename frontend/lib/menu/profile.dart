@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const image_url =
-    'https://1.bp.blogspot.com/-tVeC6En4e_E/X96mhDTzJNI/AAAAAAABdBo/jlD_jvZvMuk3qUcNjA_XORrA4w3lhPkdQCNcBGAsYHQ/s400/onepiece01_luffy.png';
+    'https://netabare-comic.com/wp-content/uploads/2022/05/%E3%83%AB%E3%83%95%E3%82%A3%E3%80%80%E8%A6%9A%E9%86%92.png';
 const name = 'takamina';
 const team = 'hoge町内会';
 const mail = 'tomatomnt@gmial.com';
