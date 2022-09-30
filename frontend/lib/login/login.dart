@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:frontend/home.dart';
-
+import 'package:dio/dio.dart';
 import 'email_login.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,19 +12,44 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPage extends State<LoginPage> {
-  final List<String> ereaItems = [
-    '1丁目',
-    '2丁目',
-    '3丁目',
-    '4丁目',
-  ];
-  String? selectedValue;
-
-  final List<String> teamItems = ['第1班', '第2班', '第3班', '第4班', '第5班'];
-
-  String? secondSelectedValue;
-
   final _formKey = GlobalKey<FormState>();
+  //　TODO: 型定義
+  List<String> organizationsName = [];
+  List<String> stateOrganizationsName = [];
+
+  double _fontSizeRatio = 1;
+
+  fetchList() async {
+    final dio = Dio();
+    const url =
+        'https://api.airtable.com/v0/appG0X7Egx1XCDWkr/organizations?api_key=keyrmU6zPEdCXGPXv';
+    var response = await dio.get(url);
+    try {
+      final data = response.data;
+      setState(() {
+        for (var i = 0; i < data["records"].length; i++) {
+          organizationsName
+              .add(data["records"][i]["fields"]["organization_name"]);
+        }
+        stateOrganizationsName = organizationsName;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  EmailLoginPage(data: stateOrganizationsName)),
+        );
+      });
+    } catch (e) {
+      print(e);
+    }
+    ;
+  }
+
+  void _changeSliderValue(double value) {
+    setState(() {
+      _fontSizeRatio = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,14 +63,29 @@ class _LoginPage extends State<LoginPage> {
                 context: context,
                 builder: (_) {
                   return SimpleDialog(
-                    title: Text("このダイアログは説明です"),
+                    title: Row(children: [
+                      Text("×${_fontSizeRatio}"),
+                      SizedBox(
+                        width: 200,
+                        child: Slider(
+                          label: '×${_fontSizeRatio}',
+                          value: _fontSizeRatio,
+                          min: 0.7,
+                          max: 1.3,
+                          divisions: 4,
+                          onChanged: _changeSliderValue,
+                        ),
+                      ),
+                    ]),
                     children: <Widget>[
                       Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 100,
+                            horizontal: 30,
                             vertical: 30,
                           ),
-                          child: Text(style: TextStyle(), 'ここに説明文が入るリマス')),
+                          child: Text(
+                              style: TextStyle(fontSize: 20 * _fontSizeRatio),
+                              'ゲストでログインの場合は掲示板のみ閲覧可能です。')),
                       SimpleDialogOption(
                         onPressed: () => Navigator.pop(context),
                         child: Icon(Icons.close),
@@ -64,7 +104,7 @@ class _LoginPage extends State<LoginPage> {
             Text('TEAM HAW.',
                 style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
             const SizedBox(height: 100),
-            SizedBox(
+/*             SizedBox(
               width: 400,
               child: _dropDownList(ereaItems, selectedValue, '地区を選択してください'),
             ),
@@ -73,7 +113,31 @@ class _LoginPage extends State<LoginPage> {
               width: 400,
               child: _dropDownList(teamItems, selectedValue, '町内会を選択してください'),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 30) ,
+            const SizedBox(height: 30),*/
+            SizedBox(
+              height: 40,
+              child: OutlinedButton(
+                  onPressed: () {
+                    fetchList();
+                  },
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(width: 2.5),
+                    backgroundColor: Colors.white,
+                  ),
+                  child: Text(
+                    'ログイン',
+                    style: GoogleFonts.notoSansJavanese(
+                        color: Color(0xdd000000),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800),
+                  )),
+            ),
+            /* const SizedBox(height: 50),
+            _snsButton("LINE", 0xff06c755),
+            const SizedBox(height: 20),
+            _snsButton("Facebook", 0xff3b5998), */
+            SizedBox(height: 40),
             SizedBox(
               height: 40,
               child: OutlinedButton(
@@ -84,30 +148,11 @@ class _LoginPage extends State<LoginPage> {
                     );
                   },
                   child: Text(
-                    '連携せずにログイン',
-                    style: TextStyle(color: Colors.black54),
+                    'ゲストでログイン',
+                    style: GoogleFonts.yuseiMagic(color: Colors.black87),
                   )),
             ),
-            const SizedBox(height: 30),
-            SizedBox(
-              height: 40,
-              child: OutlinedButton(
-                  onPressed: () {
-                    if(DropdownButtonFormField2 != null){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => EmailLoginPage()),
-                      );}
-                  },
-                  child: Text(
-                    'emailでログイン',
-                    style: TextStyle(color: Colors.black54),
-                  )),
-            ),
-            const SizedBox(height: 50),
-            _snsButton("LINE", 0xff06c755),
-            const SizedBox(height: 20),
-            _snsButton("Facebook", 0xff3b5998),
+            SizedBox(height: 100),
           ],
         ),
       ),
@@ -161,54 +206,10 @@ Widget _snsButton(String snsName, int color) {
       ));
 }
 
-//カスタマイズ可能なドロップダウンのWidget
-Widget _dropDownList(
-    List<String> itemList, String? selectedValue, String explainText) {
-  return DropdownButtonFormField2(
-    decoration: InputDecoration(
-      isDense: true,
-      contentPadding: EdgeInsets.zero,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-      ),
-    ),
-    isExpanded: true,
-    hint: Text(
-      '${explainText}',
-      style: TextStyle(fontSize: 14),
-    ),
-    icon: const Icon(
-      Icons.arrow_drop_down,
-      color: Colors.black45,
-    ),
-    iconSize: 30,
-    buttonHeight: 50,
-    buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-    dropdownDecoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(7),
-    ),
-    items: itemList
-        .map((item) => DropdownMenuItem<String>(
-      value: item,
-      child: Text(
-        item,
-        style: const TextStyle(
-          fontSize: 14,
-        ),
-      ),
-    ))
-        .toList(),
-    validator: (value) {
-      if (value == null) {
-        return 'Please select gender.';
-      }
-    },
-    onChanged: (value) {
-      //Do something when changing the item if you want.
-    },
-    onSaved: (value) {
-      selectedValue = value.toString();
-    },
-  );
+Widget createProgressIndicator() {
+  return Container(
+      alignment: Alignment.center,
+      child: const CircularProgressIndicator(
+        color: Colors.green,
+      ));
 }
-

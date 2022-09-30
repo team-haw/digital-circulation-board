@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/login/login.dart';
 import '../settings/question.dart';
 
-Widget Setting(BuildContext context) {
+Widget Setting(BuildContext context, double ratio) {
   final btnDataList = [
     {'text': 'プロフィール変更', 'to': QuestionPage()},
     {'text': '質問', 'to': QuestionPage()},
@@ -11,17 +11,14 @@ Widget Setting(BuildContext context) {
   return Center(
       child: Column(children: [
     for (final data in btnDataList)
-      _button(context, data['text'].toString(), data['to']),
+      _button(context, data['text'].toString(), data['to'], ratio),
     SizedBox(height: 100),
-    _button(context, 'ログアウト', LoginPage()),
+    _button(context, 'ログアウト', LoginPage(), ratio),
   ]));
 }
 
 Widget _button(
-  BuildContext context,
-  String? btnText,
-  final toPage,
-) {
+    BuildContext context, String? btnText, final toPage, double ratio) {
   bool isLoginBtn;
   isLoginBtn = btnText == 'ログアウト' ? true : false;
 
@@ -48,10 +45,10 @@ Widget _button(
                     children: <Widget>[
                       Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 100,
-                            vertical: 20,
+                            horizontal: 20,
+                            vertical: 30,
                           ),
-                          child: Text(style: TextStyle(), 'ログアウトしました')),
+                          child: Center(child: Text('ログアウトしました'))),
                       // Navigator.pushをしているためLoginPageに戻るボタンが追加されてしまっている。
                       // TODO: Navigator.popでLoginPageに戻りたい
                       SimpleDialogOption(
@@ -67,6 +64,7 @@ Widget _button(
         },
         child: Text('${btnText}',
             style: TextStyle(
+                fontSize: 16 * ratio,
                 color: isLoginBtn ? Colors.white : Colors.black,
                 fontWeight: isLoginBtn ? FontWeight.bold : FontWeight.normal)),
         style: ButtonStyle(
