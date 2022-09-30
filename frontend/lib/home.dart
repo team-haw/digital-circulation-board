@@ -77,7 +77,7 @@ class _HomePage extends State<HomePage> {
   }
 }
 
-Widget _bodyContent(int index, double ratio, BuildContext context) {
+Object _bodyContent(int index, double ratio, BuildContext context) {
   switch (index) {
     case 0:
       return BulletinBoard(ratio);
@@ -92,7 +92,7 @@ Widget _bodyContent(int index, double ratio, BuildContext context) {
     case 2:
       return Profile(ratio);
     case 3:
-      return Setting(context);
+      return Setting;
     default:
       return Text('error');
   }
