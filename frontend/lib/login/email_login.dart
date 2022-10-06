@@ -46,7 +46,7 @@ class _EmailLoginPageState extends State<EmailLoginPage> {
             children: [
               SizedBox(height: 50),
               Text(
-                'Flutterラボ SNS',
+                'ログイン情報',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               _inputForm(emailController, 'メールアドレス'),
