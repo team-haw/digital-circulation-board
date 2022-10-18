@@ -10,10 +10,10 @@ Widget Setting(BuildContext context, double ratio) {
 
   return Center(
       child: Column(children: [
-    for (final data in btnDataList)
-      _button(context, data['text'].toString(), data['to'], ratio),
-    SizedBox(height: 100),
-    _button(context, 'ログアウト', LoginPage(), ratio),
+        for (final data in btnDataList)
+          _button(context, data['text'].toString(), data['to'], ratio),
+        SizedBox(height: 100),
+        _button(context, 'ログアウト', LoginPage(), ratio),
   ]));
 }
 
